@@ -1,0 +1,1 @@
+src/components/ui/icons/arrow-right.tsx(6,10): error TS2305: Module '"@/lib"' has no exported member 'isRTL'.
