@@ -1,0 +1,33 @@
+
+> expo-go-villa-sample@1.0.0 lint
+> eslint "**/*.{js,jsx,ts,tsx}" && prettier -c "**/*.{js,jsx,ts,tsx,json}"
+
+
+C:\Users\asuja\Desktop\RN-ExpoGo-Villa-Sample-main\.expo\types\router.d.ts
+  1:1  warning  Unused eslint-disable directive (no problems were reported)
+
+C:\Users\asuja\Desktop\RN-ExpoGo-Villa-Sample-main\src\components\settings\language-item.tsx
+  28:5  warning  React Hook React.useMemo has an unnecessary dependency: 'uiLanguage.language'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\asuja\Desktop\RN-ExpoGo-Villa-Sample-main\src\components\weather-widget.tsx
+  4:10  warning  'CloudRain' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\asuja\Desktop\RN-ExpoGo-Villa-Sample-main\src\lib\i18n\index.tsx
+  11:1   warning  Caution: `i18n` also has a named export `use`. Check if you meant to write `import {use} from 'i18next'` instead                        import/no-named-as-default-member
+  29:3   warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-var-requires')
+  30:16  warning  A `require()` style import is forbidden                                                                                                 @typescript-eslint/no-require-imports
+  31:10  warning  Caution: `i18n` also has a named export `t`. Check if you meant to write `import {t} from 'i18next'` instead                            import/no-named-as-default-member
+  36:3   warning  Caution: `i18n` also has a named export `changeLanguage`. Check if you meant to write `import {changeLanguage} from 'i18next'` instead  import/no-named-as-default-member
+
+Γ£û 8 problems (0 errors, 8 warnings)
+  0 errors and 2 warnings potentially fixable with the `--fix` option.
+
+Checking formatting...
+[warn] src/api/weather/index.ts
+[warn] src/app/_layout.tsx
+[warn] src/app/(app)/mygyro.tsx
+[warn] src/components/weather-widget.tsx
+[warn] src/lib/env.ts
+[warn] src/lib/i18n/index.tsx
+[warn] src/stores/ui-language-store.ts
+[warn] Code style issues found in 7 files. Run Prettier with --write to fix.
