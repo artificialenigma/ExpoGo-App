@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,8 @@ import {
   TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getWeather, WeatherData } from '@/api/weather';
-import { MapPin, Thermometer, Wind, Edit2, X } from 'lucide-react-native';
+import {getWeather, WeatherData} from '@/api/weather';
+import {MapPin, Thermometer, Wind, Edit2, X} from 'lucide-react-native';
 
 export const WeatherWidget = () => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -115,8 +115,8 @@ export const WeatherWidget = () => {
           <View className="items-end">
             {weather.current.weather_icons[0] && (
               <Image
-                source={{ uri: weather.current.weather_icons[0] }}
-                style={{ width: 64, height: 64, borderRadius: 8 }}
+                source={{uri: weather.current.weather_icons[0]}}
+                style={{width: 64, height: 64, borderRadius: 8}}
               />
             )}
           </View>

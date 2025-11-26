@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
-import { FocusAwareStatusBar, ScrollView, Text, View } from '@/components/ui';
+import React, {useEffect, useState} from 'react';
+import {Platform} from 'react-native';
+import {FocusAwareStatusBar, ScrollView, Text, View} from '@/components/ui';
 import * as Device from 'expo-device';
 import * as Network from 'expo-network';
-import { Laptop, Smartphone, Globe, Cpu } from 'lucide-react-native';
+import {Laptop, Smartphone, Globe, Cpu} from 'lucide-react-native';
 
 export default function Profile() {
   const [deviceInfo, setDeviceInfo] = useState<any>(null);
@@ -73,7 +73,11 @@ export default function Profile() {
             </Text>
 
             <InfoRow
-              icon={Platform.OS === 'ios' || Platform.OS === 'android' ? Smartphone : Laptop}
+              icon={
+                Platform.OS === 'ios' || Platform.OS === 'android'
+                  ? Smartphone
+                  : Laptop
+              }
               label="Model"
               value={deviceInfo?.model}
             />
@@ -82,11 +86,7 @@ export default function Profile() {
               label="OS Version"
               value={`${deviceInfo?.osName} ${deviceInfo?.osVersion}`}
             />
-            <InfoRow
-              icon={Globe}
-              label="IP Address"
-              value={ipAddress}
-            />
+            <InfoRow icon={Globe} label="IP Address" value={ipAddress} />
             <InfoRow
               icon={Smartphone}
               label="Brand"

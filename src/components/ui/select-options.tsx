@@ -1,9 +1,8 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, Pressable, type PressableProps} from 'react-native';
 import {BottomSheetFlatList, type BottomSheetModal} from '@gorhom/bottom-sheet';
 import {FlashList} from '@shopify/flash-list';
 import {useColorScheme} from 'nativewind';
-import {Pressable, type PressableProps} from 'react-native';
 import type {SvgProps} from 'react-native-svg';
 import Svg, {Path} from 'react-native-svg';
 

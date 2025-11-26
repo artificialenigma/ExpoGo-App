@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {View, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import {
   BatteryCharging,
   RotateCw,
@@ -8,18 +8,18 @@ import {
   Share as ShareIcon,
   Clock,
 } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { cssInterop } from 'nativewind';
-import { Gyroscope } from 'expo-sensors';
+import {LinearGradient} from 'expo-linear-gradient';
+import {cssInterop} from 'nativewind';
+import {Gyroscope} from 'expo-sensors';
 import * as Battery from 'expo-battery';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { WeatherWidget } from '@/components/weather-widget';
+import {WeatherWidget} from '@/components/weather-widget';
 
-cssInterop(LinearGradient, { className: 'style' });
+cssInterop(LinearGradient, {className: 'style'});
 
 type RecordingSession = {
   id: string;
@@ -31,8 +31,10 @@ type RecordingSession = {
 
 export default function SensorDashboardScreen() {
   // Sensor State
-  const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [gyroData, setGyroData] = useState({x: 0, y: 0, z: 0});
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null,
+  );
   const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
 
   // Recording State
@@ -67,13 +69,13 @@ export default function SensorDashboardScreen() {
   const setupSensors = async () => {
     const gyroAvailable = await Gyroscope.isAvailableAsync();
     if (gyroAvailable) {
-      const { status } = await Gyroscope.requestPermissionsAsync();
+      const {status} = await Gyroscope.requestPermissionsAsync();
       if (status === 'granted') {
         _subscribe();
       }
     }
 
-    const { status: locationStatus } =
+    const {status: locationStatus} =
       await Location.requestForegroundPermissionsAsync();
     if (locationStatus === 'granted') {
       await Location.watchPositionAsync(
@@ -336,7 +338,7 @@ const AxisBar = ({
     <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
       <View
         className={`h-full ${color}`}
-        style={{ width: `${Math.min(Math.abs(val) * 50, 100)}%` }}
+        style={{width: `${Math.min(Math.abs(val) * 50, 100)}%`}}
       />
     </View>
   </View>
