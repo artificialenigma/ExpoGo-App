@@ -18,6 +18,7 @@ import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {WeatherWidget} from '@/components/weather-widget';
+import type {WeatherData} from '@/api/weather';
 
 cssInterop(LinearGradient, {className: 'style'});
 
@@ -26,7 +27,21 @@ type RecordingSession = {
   date: string;
   duration: string;
   samples: number;
-  data: any[];
+  weather?: {
+    temp: number;
+    condition: string;
+    location: string;
+  };
+  data: {
+    timestamp: number;
+    x: number;
+    y: number;
+    z: number;
+    lat?: number;
+    lon?: number;
+    alt?: number;
+    speed?: number;
+  }[];
 };
 
 export default function SensorDashboardScreen() {
@@ -41,7 +56,9 @@ export default function SensorDashboardScreen() {
   const [isRecording, setIsRecording] = useState(false);
   const isRecordingRef = useRef(false);
   const [startTime, setStartTime] = useState<number | null>(null);
-  const recordedData = useRef<any[]>([]);
+  const recordedData = useRef<RecordingSession['data']>([]);
+  const locationRef = useRef<Location.LocationObject | null>(null);
+  const weatherRef = useRef<WeatherData | null>(null);
   const [subscription, setSubscription] = useState<any>(null);
 
   // History State
@@ -84,7 +101,10 @@ export default function SensorDashboardScreen() {
           timeInterval: 1000,
           distanceInterval: 1,
         },
-        loc => setLocation(loc),
+        loc => {
+          setLocation(loc);
+          locationRef.current = loc;
+        },
       );
     }
 
@@ -105,6 +125,10 @@ export default function SensorDashboardScreen() {
             x: data.x,
             y: data.y,
             z: data.z,
+            lat: locationRef.current?.coords.latitude,
+            lon: locationRef.current?.coords.longitude,
+            alt: locationRef.current?.coords.altitude ?? undefined,
+            speed: locationRef.current?.coords.speed ?? undefined,
           });
         }
       }),
@@ -144,6 +168,13 @@ export default function SensorDashboardScreen() {
       date: new Date().toLocaleString(),
       duration: `${durationSec}s`,
       samples: recordedData.current.length,
+      weather: weatherRef.current
+        ? {
+            temp: weatherRef.current.current.temperature,
+            condition: weatherRef.current.current.weather_descriptions[0],
+            location: `${weatherRef.current.location.name}, ${weatherRef.current.location.country}`,
+          }
+        : undefined,
       data: recordedData.current, // Storing the actual data
     };
 
@@ -164,9 +195,19 @@ export default function SensorDashboardScreen() {
 
   // 5. Export/Share Logic
   const exportSession = async (session: RecordingSession) => {
-    const header = 'Timestamp,X,Y,Z\n';
+    let header = 'Timestamp,X,Y,Z,Latitude,Longitude,Altitude,Speed\n';
+
+    if (session.weather) {
+      header =
+        `# Weather: ${session.weather.temp}C, ${session.weather.condition}, ${session.weather.location}\n` +
+        header;
+    }
+
     const rows = session.data
-      .map(d => `${d.timestamp},${d.x},${d.y},${d.z}`)
+      .map(
+        d =>
+          `${d.timestamp},${d.x},${d.y},${d.z},${d.lat ?? ''},${d.lon ?? ''},${d.alt ?? ''},${d.speed ?? ''}`,
+      )
       .join('\n');
 
     const filename = `gyro_${session.id}.csv`;
@@ -218,7 +259,7 @@ export default function SensorDashboardScreen() {
 
       <View className="p-4 -mt-6">
         {/* Weather Widget */}
-        <WeatherWidget />
+        <WeatherWidget onWeatherUpdate={data => (weatherRef.current = data)} />
 
         {/* Live Monitor */}
         <View className="bg-white dark:bg-neutral-800 rounded-2xl shadow-md p-5 mb-5">

@@ -12,7 +12,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getWeather, WeatherData} from '@/api/weather';
 import {MapPin, Thermometer, Wind, Edit2, X} from 'lucide-react-native';
 
-export const WeatherWidget = () => {
+export const WeatherWidget = ({
+  onWeatherUpdate,
+}: {
+  onWeatherUpdate?: (weather: WeatherData) => void;
+}) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +26,7 @@ export const WeatherWidget = () => {
 
   useEffect(() => {
     loadLocationAndWeather();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadLocationAndWeather = async () => {
@@ -54,6 +59,7 @@ export const WeatherWidget = () => {
       setError(null);
       const data = await getWeather(query);
       setWeather(data);
+      onWeatherUpdate?.(data);
     } catch (e: any) {
       setError(e.message);
     } finally {
