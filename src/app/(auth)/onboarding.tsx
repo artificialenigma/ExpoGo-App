@@ -1,7 +1,7 @@
-import {useRouter} from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 
-import {Cover} from '@/components/cover';
+import { Cover } from '@/components/cover';
 import {
   Button,
   FocusAwareStatusBar,
@@ -10,10 +10,10 @@ import {
   View,
 } from '@/components/ui';
 
-import {useAuth} from '@/app/providers/auth/auth-provider';
+import { useAuth } from '@/app/providers/auth/auth-provider';
 
 export default function Onboarding() {
-  const {setIsFirstTime} = useAuth();
+  const { setIsFirstTime } = useAuth();
   const router = useRouter();
 
   return (
@@ -24,23 +24,23 @@ export default function Onboarding() {
       </View>
       <View className="justify-end ">
         <Text className="my-3 text-center text-5xl font-bold">
-          Villa Starter
+          MyGyroApp
         </Text>
         <Text className="mb-2 text-center text-lg text-gray-600">
-          The right way to build your mobile app
+          Advanced Sensor Data Logger
         </Text>
 
         <Text className="my-1 pt-6 text-left text-lg">
-          🚀 Production-ready{' '}
+          📊 Sensor Recording
         </Text>
         <Text className="my-1 text-left text-lg">
-          🥷 Developer experience + Productivity
+          📍 GPS Tracking
         </Text>
         <Text className="my-1 text-left text-lg">
-          🧩 Minimal code and dependencies
+          🌤️ Weather Data
         </Text>
         <Text className="my-1 text-left text-lg">
-          💪 well maintained third-party libraries
+          📁 CSV Export
         </Text>
       </View>
       <SafeAreaView className="mt-6">
