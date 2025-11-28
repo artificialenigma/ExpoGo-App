@@ -3709,7 +3709,7 @@ expo-keep-awake@~14.1.4:
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-14.1.4.tgz"
   integrity sha512-wU9qOnosy4+U4z/o4h8W9PjPvcFMfZXrlUoKTMBW7F4pLqhkkP/5G4EviPZixv4XWFMjn1ExQ5rV6BX8GwJsWA==
 
-expo-linear-gradient@~14.1.5:
+expo-linear-gradient@*, expo-linear-gradient@~14.1.5:
   version "14.1.5"
   resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-14.1.5.tgz"
   integrity sha512-BSN3MkSGLZoHMduEnAgfhoj3xqcDWaoICgIr4cIYEx1GcHfKMhzA/O4mpZJ/WC27BP1rnAqoKfbclk1eA70ndQ==
@@ -4181,6 +4181,11 @@ getenv@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/getenv/-/getenv-2.0.0.tgz"
   integrity sha512-VilgtJj/ALgGY77fiLam5iD336eSWi96Q15JSAG1zi8NRBysm3LXKdGnHb4m5cuyxvOLQQKWpBZAT6ni4FI2iQ==
+
+gifted-charts-core@0.1.70:
+  version "0.1.70"
+  resolved "https://registry.npmjs.org/gifted-charts-core/-/gifted-charts-core-0.1.70.tgz"
+  integrity sha512-tkEERhj2CiRFKlbCRMvgbKy2LCg+MeAUDYWkbqCTF3lDaSojZbkDYELt0BqdEHvdufPwy+IJrOfWyu0tXSM6Mg==
 
 glob-parent@^5.1.2:
   version "5.1.2"
@@ -6221,6 +6226,13 @@ react-native-gesture-handler@>=2.16.1, react-native-gesture-handler@~2.24.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
 
+react-native-gifted-charts@^1.4.68:
+  version "1.4.68"
+  resolved "https://registry.npmjs.org/react-native-gifted-charts/-/react-native-gifted-charts-1.4.68.tgz"
+  integrity sha512-NEfn+wUbATxKPl1n1TmkWASgKckpJHeHVzZtgtwYichUMA6HF7v5dpOyqU+le2ZXKNHI0BH/+Zn/J1jjjg8Hng==
+  dependencies:
+    gifted-charts-core "0.1.70"
+
 react-native-iphone-screen-helper@^2.0.2:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-native-iphone-screen-helper/-/react-native-iphone-screen-helper-2.2.1.tgz"
@@ -6268,7 +6280,7 @@ react-native-screens@*, "react-native-screens@>= 4.0.0", react-native-screens@~4
     react-native-is-edge-to-edge "^1.1.7"
     warn-once "^0.1.0"
 
-"react-native-svg@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", react-native-svg@15.11.2:
+react-native-svg@*, "react-native-svg@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0", react-native-svg@15.11.2:
   version "15.11.2"
   resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-15.11.2.tgz"
   integrity sha512-+YfF72IbWQUKzCIydlijV1fLuBsQNGMT6Da2kFlo1sh+LE3BIm/2Q7AR1zAAR6L0BFLi1WaQPLfFUC9bNZpOmw==
