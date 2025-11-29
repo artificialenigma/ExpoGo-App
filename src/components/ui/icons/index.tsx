@@ -10,3 +10,5 @@ export * from './share';
 export * from './style';
 export * from './support';
 export * from './website';
+export * from './map-pin';
+export * from './activity';

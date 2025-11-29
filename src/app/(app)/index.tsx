@@ -24,9 +24,8 @@ type RecordingSession = {
   };
   data: {
     timestamp: number;
-    x: number;
-    y: number;
-    z: number;
+    gyro: { x: number; y: number; z: number };
+    accel: { x: number; y: number; z: number };
     lat?: number;
     lon?: number;
     alt?: number;
@@ -102,15 +101,25 @@ const SessionCard = ({
   // Prepare data for charts
   // Downsample if too many points to keep performance high
   const step = Math.ceil(session.data.length / 50); // Limit to ~50 points
-  const chartDataX = session.data
+  const chartDataGyroX = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.x }));
-  const chartDataY = session.data
+    .map(d => ({ value: d.gyro.x }));
+  const chartDataGyroY = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.y }));
-  const chartDataZ = session.data
+    .map(d => ({ value: d.gyro.y }));
+  const chartDataGyroZ = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.z }));
+    .map(d => ({ value: d.gyro.z }));
+
+  const chartDataAccelX = session.data
+    .filter((_, i) => i % step === 0)
+    .map(d => ({ value: d.accel.x }));
+  const chartDataAccelY = session.data
+    .filter((_, i) => i % step === 0)
+    .map(d => ({ value: d.accel.y }));
+  const chartDataAccelZ = session.data
+    .filter((_, i) => i % step === 0)
+    .map(d => ({ value: d.accel.z }));
 
   return (
     <View className="mb-4 overflow-hidden rounded-xl bg-white shadow-sm dark:bg-neutral-800">
@@ -144,23 +153,63 @@ const SessionCard = ({
       {isExpanded && (
         <View className="border-t border-gray-100 p-4 dark:border-gray-700">
           <Text className="mb-2 text-sm font-bold text-gray-600 dark:text-gray-300">
-            Gyroscope Data (X, Y, Z)
+            Gyroscope Data (rad/s)
           </Text>
           <View className="items-center overflow-hidden rounded-lg bg-gray-50 py-2 dark:bg-neutral-900">
             <LineChart
-              data={chartDataX}
-              data2={chartDataY}
-              data3={chartDataZ}
+              data={chartDataGyroX}
+              data2={chartDataGyroY}
+              data3={chartDataGyroZ}
               height={150}
               width={Dimensions.get('window').width - 80}
               spacing={Dimensions.get('window').width / 60}
               initialSpacing={0}
-              color1="red"
-              color2="green"
-              color3="blue"
-              dataPointsColor1="red"
-              dataPointsColor2="green"
-              dataPointsColor3="blue"
+              color1="#a855f7"
+              color2="#6366f1"
+              color3="#ec4899"
+              dataPointsColor1="#a855f7"
+              dataPointsColor2="#6366f1"
+              dataPointsColor3="#ec4899"
+              thickness={2}
+              hideRules
+              hideYAxisText
+              yAxisThickness={0}
+              xAxisThickness={0}
+            />
+          </View>
+          <View className="mt-2 flex-row justify-center gap-4">
+            <View className="flex-row items-center gap-1">
+              <View className="h-2 w-2 rounded-full bg-purple-500" />
+              <Text className="text-xs text-gray-500">X</Text>
+            </View>
+            <View className="flex-row items-center gap-1">
+              <View className="h-2 w-2 rounded-full bg-indigo-500" />
+              <Text className="text-xs text-gray-500">Y</Text>
+            </View>
+            <View className="flex-row items-center gap-1">
+              <View className="h-2 w-2 rounded-full bg-pink-500" />
+              <Text className="text-xs text-gray-500">Z</Text>
+            </View>
+          </View>
+
+          <Text className="mb-2 mt-6 text-sm font-bold text-gray-600 dark:text-gray-300">
+            Accelerometer Data (m/s²)
+          </Text>
+          <View className="items-center overflow-hidden rounded-lg bg-gray-50 py-2 dark:bg-neutral-900">
+            <LineChart
+              data={chartDataAccelX}
+              data2={chartDataAccelY}
+              data3={chartDataAccelZ}
+              height={150}
+              width={Dimensions.get('window').width - 80}
+              spacing={Dimensions.get('window').width / 60}
+              initialSpacing={0}
+              color1="#ef4444"
+              color2="#22c55e"
+              color3="#3b82f6"
+              dataPointsColor1="#ef4444"
+              dataPointsColor2="#22c55e"
+              dataPointsColor3="#3b82f6"
               thickness={2}
               hideRules
               hideYAxisText

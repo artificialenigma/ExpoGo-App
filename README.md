@@ -78,6 +78,15 @@ Record comprehensive motion data from your device's sensors including:
 - Location accuracy indicators
 - Distance and speed calculations
 - Route visualization on maps
+- **Driving History Map**: Interactive map showing all recorded routes with start/end points
+- **Interactive Markers**: Tap on route to see detailed sensor data at that location
+
+### 💥 Impact Detection System
+- **Real-time Monitoring**: Dedicated dashboard for G-force monitoring
+- **Shock Detection**: Automatically flags road anomalies (>1.5g)
+- **Impact Mapping**: Red markers on the map pinpointing where impacts occurred
+- **Severity Classification**: Distinguishes between minor bumps and severe impacts
+
 
 ### 🌤️ Weather Integration
 - Automatic weather data collection per session
@@ -135,6 +144,14 @@ Record comprehensive motion data from your device's sensors including:
 ### Settings
 ![Settings Screen](./screenshots/settings.png)
 *App configuration, language selection, and theme preferences*
+
+### Driving History Map
+![Map Screen](./screenshots/map.png)
+*Interactive map showing GPS routes and impact markers*
+
+### Impact Monitor
+![Impacts Screen](./screenshots/impacts.png)
+*Real-time G-force meter and impact history*
 
 ---
 
@@ -256,6 +273,8 @@ MyGyroApp/
 │   │   │   ├── index.tsx        # History/Home screen
 │   │   │   ├── style.tsx        # Project Overview screen
 │   │   │   ├── mygyro.tsx       # Sensor dashboard
+│   │   │   ├── map.tsx          # Driving history map
+│   │   │   ├── impacts.tsx      # Impact detection monitor
 │   │   │   ├── profile.tsx      # User profile
 │   │   │   ├── settings.tsx     # App settings
 │   │   │   └── _layout.tsx      # Tab navigation layout

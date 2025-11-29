@@ -51,3 +51,6 @@ logs/
 
 expo-env.d.ts
 # @end expo-cli
+
+# User Testing & Documentation (not for public repo)
+USER_TESTING_REPORT.md

@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import {
   BatteryCharging,
   RotateCw,
@@ -8,19 +8,19 @@ import {
   Share as ShareIcon,
   Clock,
 } from 'lucide-react-native';
-import {LinearGradient} from 'expo-linear-gradient';
-import {cssInterop} from 'nativewind';
-import {Gyroscope} from 'expo-sensors';
+import { LinearGradient } from 'expo-linear-gradient';
+import { cssInterop } from 'nativewind';
+import { Gyroscope, Accelerometer } from 'expo-sensors';
 import * as Battery from 'expo-battery';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {WeatherWidget} from '@/components/weather-widget';
-import type {WeatherData} from '@/api/weather';
+import { WeatherWidget } from '@/components/weather-widget';
+import type { WeatherData } from '@/api/weather';
 
-cssInterop(LinearGradient, {className: 'style'});
+cssInterop(LinearGradient, { className: 'style' });
 
 type RecordingSession = {
   id: string;
@@ -34,19 +34,25 @@ type RecordingSession = {
   };
   data: {
     timestamp: number;
-    x: number;
-    y: number;
-    z: number;
+    gyro: { x: number; y: number; z: number };
+    accel: { x: number; y: number; z: number };
     lat?: number;
     lon?: number;
     alt?: number;
     speed?: number;
   }[];
+  impacts: {
+    timestamp: number;
+    magnitude: number;
+    lat?: number;
+    lon?: number;
+  }[];
 };
 
 export default function SensorDashboardScreen() {
   // Sensor State
-  const [gyroData, setGyroData] = useState({x: 0, y: 0, z: 0});
+  const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
+  const [accelData, setAccelData] = useState({ x: 0, y: 0, z: 0 });
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null,
   );
@@ -57,9 +63,14 @@ export default function SensorDashboardScreen() {
   const isRecordingRef = useRef(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const recordedData = useRef<RecordingSession['data']>([]);
+  const recordedImpacts = useRef<RecordingSession['impacts']>([]);
+  const lastImpactTime = useRef(0);
   const locationRef = useRef<Location.LocationObject | null>(null);
   const weatherRef = useRef<WeatherData | null>(null);
-  const [subscription, setSubscription] = useState<any>(null);
+  const gyroRef = useRef({ x: 0, y: 0, z: 0 });
+  const accelRef = useRef({ x: 0, y: 0, z: 0 });
+  const [gyroSubscription, setGyroSubscription] = useState<any>(null);
+  const [accelSubscription, setAccelSubscription] = useState<any>(null);
 
   // History State
   const [history, setHistory] = useState<RecordingSession[]>([]);
@@ -86,13 +97,21 @@ export default function SensorDashboardScreen() {
   const setupSensors = async () => {
     const gyroAvailable = await Gyroscope.isAvailableAsync();
     if (gyroAvailable) {
-      const {status} = await Gyroscope.requestPermissionsAsync();
+      const { status } = await Gyroscope.requestPermissionsAsync();
       if (status === 'granted') {
-        _subscribe();
+        _subscribeGyro();
       }
     }
 
-    const {status: locationStatus} =
+    const accelAvailable = await Accelerometer.isAvailableAsync();
+    if (accelAvailable) {
+      const { status } = await Accelerometer.requestPermissionsAsync();
+      if (status === 'granted') {
+        _subscribeAccel();
+      }
+    }
+
+    const { status: locationStatus } =
       await Location.requestForegroundPermissionsAsync();
     if (locationStatus === 'granted') {
       await Location.watchPositionAsync(
@@ -112,19 +131,46 @@ export default function SensorDashboardScreen() {
     setBatteryLevel(level);
   };
 
-  // 2. Sensor Subscription
-  const _subscribe = () => {
+  // 2. Sensor Subscriptions
+  const _subscribeGyro = () => {
     Gyroscope.setUpdateInterval(100);
-    setSubscription(
+    setGyroSubscription(
       Gyroscope.addListener(data => {
         setGyroData(data);
+        gyroRef.current = data;
+      }),
+    );
+  };
 
+  const _subscribeAccel = () => {
+    Accelerometer.setUpdateInterval(100);
+    setAccelSubscription(
+      Accelerometer.addListener(data => {
+        setAccelData(data);
+        accelRef.current = data;
+
+        // Record data when both sensors have values
         if (isRecordingRef.current) {
+          const now = Date.now();
+
+          // Detect Impact (> 1.5g)
+          const magnitude = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
+          if (magnitude > 1.5) {
+            if (now - lastImpactTime.current > 500) { // Debounce 500ms
+              lastImpactTime.current = now;
+              recordedImpacts.current.push({
+                timestamp: now,
+                magnitude,
+                lat: locationRef.current?.coords.latitude,
+                lon: locationRef.current?.coords.longitude,
+              });
+            }
+          }
+
           recordedData.current.push({
-            timestamp: Date.now(),
-            x: data.x,
-            y: data.y,
-            z: data.z,
+            timestamp: now,
+            gyro: { x: gyroRef.current.x, y: gyroRef.current.y, z: gyroRef.current.z },
+            accel: { x: accelRef.current.x, y: accelRef.current.y, z: accelRef.current.z },
             lat: locationRef.current?.coords.latitude,
             lon: locationRef.current?.coords.longitude,
             alt: locationRef.current?.coords.altitude ?? undefined,
@@ -136,8 +182,10 @@ export default function SensorDashboardScreen() {
   };
 
   const _unsubscribe = () => {
-    subscription && subscription.remove();
-    setSubscription(null);
+    gyroSubscription && gyroSubscription.remove();
+    setGyroSubscription(null);
+    accelSubscription && accelSubscription.remove();
+    setAccelSubscription(null);
   };
 
   // 3. Recording Logic
@@ -150,6 +198,7 @@ export default function SensorDashboardScreen() {
     } else {
       // START
       recordedData.current = [];
+      recordedImpacts.current = [];
       setStartTime(Date.now());
       setIsRecording(true);
       isRecordingRef.current = true;
@@ -168,12 +217,13 @@ export default function SensorDashboardScreen() {
       date: new Date().toLocaleString(),
       duration: `${durationSec}s`,
       samples: recordedData.current.length,
+      impacts: recordedImpacts.current,
       weather: weatherRef.current
         ? {
-            temp: weatherRef.current.current.temperature,
-            condition: weatherRef.current.current.weather_descriptions[0],
-            location: `${weatherRef.current.location.name}, ${weatherRef.current.location.country}`,
-          }
+          temp: weatherRef.current.current.temperature,
+          condition: weatherRef.current.current.weather_descriptions[0],
+          location: `${weatherRef.current.location.name}, ${weatherRef.current.location.country}`,
+        }
         : undefined,
       data: recordedData.current, // Storing the actual data
     };
@@ -195,7 +245,7 @@ export default function SensorDashboardScreen() {
 
   // 5. Export/Share Logic
   const exportSession = async (session: RecordingSession) => {
-    let header = 'Timestamp,X,Y,Z,Latitude,Longitude,Altitude,Speed\n';
+    let header = 'Timestamp,Gyro_X,Gyro_Y,Gyro_Z,Accel_X,Accel_Y,Accel_Z,Latitude,Longitude,Altitude,Speed\n';
 
     if (session.weather) {
       header =
@@ -206,7 +256,7 @@ export default function SensorDashboardScreen() {
     const rows = session.data
       .map(
         d =>
-          `${d.timestamp},${d.x},${d.y},${d.z},${d.lat ?? ''},${d.lon ?? ''},${d.alt ?? ''},${d.speed ?? ''}`,
+          `${d.timestamp},${d.gyro.x},${d.gyro.y},${d.gyro.z},${d.accel.x},${d.accel.y},${d.accel.z},${d.lat ?? ''},${d.lon ?? ''},${d.alt ?? ''},${d.speed ?? ''}`,
       )
       .join('\n');
 
@@ -261,11 +311,11 @@ export default function SensorDashboardScreen() {
         {/* Weather Widget */}
         <WeatherWidget onWeatherUpdate={data => (weatherRef.current = data)} />
 
-        {/* Live Monitor */}
+        {/* Live Monitor - Gyroscope */}
         <View className="bg-white dark:bg-neutral-800 rounded-2xl shadow-md p-5 mb-5">
           <View className="flex-row justify-between mb-4">
             <Text className="text-xl font-bold text-gray-800 dark:text-white">
-              Live Monitor
+              Gyroscope (rad/s)
             </Text>
             <View className="flex-row items-center gap-1">
               <BatteryCharging color="#2ecc71" size={18} />
@@ -278,7 +328,21 @@ export default function SensorDashboardScreen() {
           <AxisBar label="Y" val={gyroData.y} color="bg-indigo-500" />
           <AxisBar label="Z" val={gyroData.z} color="bg-pink-500" />
 
-          <View className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+        </View>
+
+        {/* Live Monitor - Accelerometer */}
+        <View className="bg-white dark:bg-neutral-800 rounded-2xl shadow-md p-5 mb-5">
+          <Text className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+            Accelerometer (m/s²)
+          </Text>
+          <AxisBar label="X" val={accelData.x} color="bg-red-500" />
+          <AxisBar label="Y" val={accelData.y} color="bg-green-500" />
+          <AxisBar label="Z" val={accelData.z} color="bg-blue-500" />
+        </View>
+
+        {/* GPS Data */}
+        <View className="bg-white dark:bg-neutral-800 rounded-2xl shadow-md p-5 mb-5">
+          <View className="mt-0 pt-0">
             <Text className="text-sm font-bold text-gray-500 mb-3">
               GPS Data
             </Text>
@@ -310,53 +374,53 @@ export default function SensorDashboardScreen() {
             </View>
           </View>
         </View>
-
-        {/* History List */}
-        <Text className="text-lg font-bold text-gray-600 dark:text-gray-300 mb-3 px-1">
-          Recording History ({history.length})
-        </Text>
-
-        {history.length === 0 ? (
-          <Text className="text-center text-gray-400 py-8">
-            No recordings yet.
-          </Text>
-        ) : (
-          history.map(item => (
-            <View
-              key={item.id}
-              className="bg-white dark:bg-neutral-800 p-4 rounded-xl mb-3 flex-row justify-between items-center shadow-sm">
-              <View>
-                <View className="flex-row items-center gap-2 mb-1">
-                  <Clock color="#888" size={14} />
-                  <Text className="text-gray-500 text-xs">{item.date}</Text>
-                </View>
-                <Text className="font-bold text-gray-800 dark:text-white">
-                  {item.samples} samples{' '}
-                  <Text className="font-normal text-gray-400">
-                    ({item.duration})
-                  </Text>
-                </Text>
-              </View>
-
-              <View className="flex-row gap-3">
-                <TouchableOpacity
-                  onPress={() => exportSession(item)}
-                  className="bg-blue-100 p-2 rounded-lg">
-                  <ShareIcon size={20} color="#3b82f6" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => deleteSession(item.id)}
-                  className="bg-red-100 p-2 rounded-lg">
-                  <Trash2 size={20} color="#ef4444" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))
-        )}
-
-        <View className="h-10" />
       </View>
-    </ScrollView>
+
+      {/* History List */}
+      <Text className="text-lg font-bold text-gray-600 dark:text-gray-300 mb-3 px-1">
+        Recording History ({history.length})
+      </Text>
+
+      {history.length === 0 ? (
+        <Text className="text-center text-gray-400 py-8">
+          No recordings yet.
+        </Text>
+      ) : (
+        history.map(item => (
+          <View
+            key={item.id}
+            className="bg-white dark:bg-neutral-800 p-4 rounded-xl mb-3 flex-row justify-between items-center shadow-sm">
+            <View>
+              <View className="flex-row items-center gap-2 mb-1">
+                <Clock color="#888" size={14} />
+                <Text className="text-gray-500 text-xs">{item.date}</Text>
+              </View>
+              <Text className="font-bold text-gray-800 dark:text-white">
+                {item.samples} samples{' '}
+                <Text className="font-normal text-gray-400">
+                  ({item.duration})
+                </Text>
+              </Text>
+            </View>
+
+            <View className="flex-row gap-3">
+              <TouchableOpacity
+                onPress={() => exportSession(item)}
+                className="bg-blue-100 p-2 rounded-lg">
+                <ShareIcon size={20} color="#3b82f6" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => deleteSession(item.id)}
+                className="bg-red-100 p-2 rounded-lg">
+                <Trash2 size={20} color="#ef4444" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))
+      )}
+
+      <View className="h-10" />
+    </ScrollView >
   );
 }
 
@@ -379,7 +443,7 @@ const AxisBar = ({
     <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
       <View
         className={`h-full ${color}`}
-        style={{width: `${Math.min(Math.abs(val) * 50, 100)}%`}}
+        style={{ width: `${Math.min(Math.abs(val) * 50, 100)}%` }}
       />
     </View>
   </View>

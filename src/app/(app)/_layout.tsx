@@ -8,6 +8,8 @@ import {
   Style as StyleIcon,
   Home as ProfileIcon,
   Website as GyroIcon,
+  MapPin as MapIcon,
+  Activity as ActivityIcon,
 } from '@/components/ui/icons';
 import { useAuth } from '@/app/providers/auth/auth-provider';
 
@@ -30,6 +32,24 @@ export default function TabLayout() {
           title: 'History',
           tabBarIcon: ({ color }) => <FeedIcon color={color} />,
           tabBarButtonTestID: 'feed-tab',
+        }}
+      />
+      <Tabs.Screen
+        name="map"
+        options={{
+          title: 'Map',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MapIcon color={color} />,
+          tabBarButtonTestID: 'map-tab',
+        }}
+      />
+      <Tabs.Screen
+        name="impacts"
+        options={{
+          title: 'Impacts',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <ActivityIcon color={color} />,
+          tabBarButtonTestID: 'impacts-tab',
         }}
       />
       <Tabs.Screen
