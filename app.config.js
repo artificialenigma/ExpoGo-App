@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'expo-go-villa-sample',
+    name: 'MyGyroApp',
     slug: 'expo-go-villa-sample',
     version: '1.0.0',
     scheme: 'expo-go-villa-sample',
@@ -42,6 +42,7 @@ export default {
       supportsTablet: true,
     },
     android: {
+      package: 'com.artificialenigma.mygyroapp',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#ffffff',
@@ -50,6 +51,9 @@ export default {
     // NOTE: Avoid embedding sensitive secrets in `expo.extra`.
     // Provide sensitive values via CI/build-time env vars and do not commit them to the repo.
     extra: {
+      eas: {
+        projectId: '847f7f09-7e30-44e5-8768-57e026bab0f7',
+      },
       API_URL: process.env.API_URL,
       // SECRET_KEY intentionally omitted from extra to avoid shipping secrets in app bundles.
       VAR_NUMBER: process.env.VAR_NUMBER,
