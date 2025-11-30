@@ -122,15 +122,15 @@ Record comprehensive motion data from your device's sensors including:
 ## 📸 Screenshots
 
 ### Onboarding Screen
-![Onboarding Screen](./screenshots/onboarding.png)
+![Onboarding Screen](./screenshots/onboarding.jpg)
 *Comprehensive introduction to MyGyroApp and its research objectives*
 
 ### Project Overview
-![Project Overview](./screenshots/project-overview.png)
+![Project Overview](./screenshots/project-overview.jpg)
 *Detailed explanation of the road anomaly detection methodology*
 
 ### Recording Interface
-![Recording Interface](./screenshots/recording.png)
+![Recording Interface](./screenshots/recording.jpg)
 *Real-time sensor data visualization during active recording*
 
 ### Session History
@@ -146,11 +146,11 @@ Record comprehensive motion data from your device's sensors including:
 *App configuration, language selection, and theme preferences*
 
 ### Driving History Map
-![Map Screen](./screenshots/map.png)
+![Map Screen](./screenshots/map.jpg)
 *Interactive map showing GPS routes and impact markers*
 
 ### Impact Monitor
-![Impacts Screen](./screenshots/impacts.png)
+![Impacts Screen](./screenshots/impacts.jpg)
 *Real-time G-force meter and impact history*
 
 ---
