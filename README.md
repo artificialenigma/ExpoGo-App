@@ -12,7 +12,7 @@ Road conditions significantly influence driver health through **Whole-Body Vibra
 - Poor road conditions impair attention and decision-making ability
 - Long-term exposure leads to musculoskeletal disorders and increased accident risk
 
-### Our Solution
+### My Solution
 Using ESP32 microcontrollers with integrated gyroscope and accelerometer sensors, we collect comprehensive road quality data including:
 - Multi-sensor motion data (gyroscope, accelerometer)
 - GPS coordinates per sample
@@ -301,19 +301,6 @@ MyGyroApp/
 ├── eas.json                    # EAS Build configuration
 └── package.json                # Dependencies
 ```
-
----
-
-## 🤝 Contributing
-
-This is an academic research project. For collaboration opportunities or questions about the methodology, please contact the project team.
-
----
-
-## 📄 License
-
-This project is part of a Digital Systems research initiative focused on road safety and driver health.
-
 ---
 
 ## 🎓 Research Context
@@ -331,13 +318,6 @@ This application is part of a comprehensive study on:
 4. Support occupational health policies for professional drivers
 
 ---
-
-## 📞 Support
-
-For technical issues or questions:
-- Check the [Troubleshooting](#-troubleshooting) section
-- Review [Expo Documentation](https://docs.expo.dev)
-- Consult [React Native Documentation](https://reactnative.dev)
 
 ---
 
