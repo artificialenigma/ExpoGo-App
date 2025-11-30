@@ -260,10 +260,22 @@ export default function SensorDashboardScreen() {
       )
       .join('\n');
 
+    let csvContent = header + rows;
+
+    if (session.impacts && session.impacts.length > 0) {
+      const impactHeader = '\n\nIMPACT EVENTS\nTimestamp,Magnitude,Latitude,Longitude\n';
+      const impactRows = session.impacts
+        .map(
+          i => `${i.timestamp},${i.magnitude},${i.lat ?? ''},${i.lon ?? ''}`
+        )
+        .join('\n');
+      csvContent += impactHeader + impactRows;
+    }
+
     const filename = `gyro_${session.id}.csv`;
     const fileUri = FileSystem.documentDirectory + filename;
 
-    await FileSystem.writeAsStringAsync(fileUri, header + rows, {
+    await FileSystem.writeAsStringAsync(fileUri, csvContent, {
       encoding: FileSystem.EncodingType.UTF8,
     });
 
