@@ -1,7 +1,7 @@
-import { Link, Redirect, Tabs } from 'expo-router';
+import {Link, Redirect, Tabs} from 'expo-router';
 import React from 'react';
 
-import { Pressable, Text } from '@/components/ui';
+import {Pressable, Text} from '@/components/ui';
 import {
   Feed as FeedIcon,
   Settings as SettingsIcon,
@@ -11,10 +11,10 @@ import {
   MapPin as MapIcon,
   Activity as ActivityIcon,
 } from '@/components/ui/icons';
-import { useAuth } from '@/app/providers/auth/auth-provider';
+import {useAuth} from '@/app/providers/auth/auth-provider';
 
 export default function TabLayout() {
-  const { status, isFirstTime } = useAuth();
+  const {status, isFirstTime} = useAuth();
 
   if (isFirstTime) {
     return <Redirect href="/(auth)/onboarding" />;
@@ -30,7 +30,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'History',
-          tabBarIcon: ({ color }) => <FeedIcon color={color} />,
+          tabBarIcon: ({color}) => <FeedIcon color={color} />,
           tabBarButtonTestID: 'feed-tab',
         }}
       />
@@ -39,7 +39,7 @@ export default function TabLayout() {
         options={{
           title: 'Map',
           headerShown: false,
-          tabBarIcon: ({ color }) => <MapIcon color={color} />,
+          tabBarIcon: ({color}) => <MapIcon color={color} />,
           tabBarButtonTestID: 'map-tab',
         }}
       />
@@ -48,7 +48,7 @@ export default function TabLayout() {
         options={{
           title: 'Impacts',
           headerShown: false,
-          tabBarIcon: ({ color }) => <ActivityIcon color={color} />,
+          tabBarIcon: ({color}) => <ActivityIcon color={color} />,
           tabBarButtonTestID: 'impacts-tab',
         }}
       />
@@ -57,7 +57,7 @@ export default function TabLayout() {
         options={{
           title: 'Project Overview',
           headerShown: false,
-          tabBarIcon: ({ color }) => <StyleIcon color={color} />,
+          tabBarIcon: ({color}) => <StyleIcon color={color} />,
           tabBarButtonTestID: 'style-tab',
         }}
       />
@@ -65,7 +65,7 @@ export default function TabLayout() {
         name="mygyro" // 👈 This MUST match the filename 'mygyro.tsx'
         options={{
           title: 'My Gyro',
-          tabBarIcon: ({ color }) => <GyroIcon color={color} />,
+          tabBarIcon: ({color}) => <GyroIcon color={color} />,
           tabBarButtonTestID: 'mygyro-tab',
         }}
       />
@@ -74,7 +74,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           headerShown: false,
-          tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
+          tabBarIcon: ({color}) => <ProfileIcon color={color} />,
           tabBarButtonTestID: 'profile-tab',
         }}
       />
@@ -83,7 +83,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           headerShown: false,
-          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
+          tabBarIcon: ({color}) => <SettingsIcon color={color} />,
           tabBarButtonTestID: 'settings-tab',
         }}
       />

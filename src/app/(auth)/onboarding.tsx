@@ -1,6 +1,6 @@
-import { useRouter } from 'expo-router';
+import {useRouter} from 'expo-router';
 import React from 'react';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 
 import {
   Button,
@@ -10,10 +10,10 @@ import {
   View,
 } from '@/components/ui';
 
-import { useAuth } from '@/app/providers/auth/auth-provider';
+import {useAuth} from '@/app/providers/auth/auth-provider';
 
 export default function Onboarding() {
-  const { setIsFirstTime } = useAuth();
+  const {setIsFirstTime} = useAuth();
   const router = useRouter();
 
   return (
@@ -38,9 +38,10 @@ export default function Onboarding() {
             </Text>
 
             <Text className="mb-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
-              Road conditions significantly influence driver health through Whole-Body Vibration (WBV)
-              and Driver Stress (DS). This app helps quantify road-induced motions and their impact on
-              driver health parameters.
+              Road conditions significantly influence driver health through
+              Whole-Body Vibration (WBV) and Driver Stress (DS). This app helps
+              quantify road-induced motions and their impact on driver health
+              parameters.
             </Text>
 
             <View className="mb-4 rounded-xl bg-white/50 p-4 dark:bg-black/20">
@@ -48,9 +49,10 @@ export default function Onboarding() {
                 🚗 The Problem
               </Text>
               <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                • WBV from road surfaces affects driver vigilance and increases stress{'\n'}
-                • 55.30% of professional drivers experience Low Back Pain{'\n'}
-                • Poor road conditions impair attention and decision-making
+                • WBV from road surfaces affects driver vigilance and increases
+                stress{'\n'}• 55.30% of professional drivers experience Low Back
+                Pain{'\n'}• Poor road conditions impair attention and
+                decision-making
               </Text>
             </View>
 
@@ -59,8 +61,9 @@ export default function Onboarding() {
                 💡 Our Solution
               </Text>
               <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                Using ESP32 and gyroscope sensors, we collect real-world, low-cost road data
-                to link measurable road-induced motions with physiological outcomes.
+                Using ESP32 and gyroscope sensors, we collect real-world,
+                low-cost road data to link measurable road-induced motions with
+                physiological outcomes.
               </Text>
             </View>
           </View>
@@ -128,9 +131,10 @@ export default function Onboarding() {
               🎓 Research Impact
             </Text>
             <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-              This digital systems project bridges the gap between real-world road data and
-              driver health outcomes, contributing to safer road infrastructure and improved
-              occupational health for professional drivers.
+              This digital systems project bridges the gap between real-world
+              road data and driver health outcomes, contributing to safer road
+              infrastructure and improved occupational health for professional
+              drivers.
             </Text>
           </View>
         </View>

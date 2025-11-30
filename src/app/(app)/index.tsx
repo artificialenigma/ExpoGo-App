@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from 'expo-router';
-import { LineChart } from 'react-native-gifted-charts';
-import { ChevronDown, ChevronUp, Clock } from 'lucide-react-native';
-import { FocusAwareStatusBar } from '@/components/ui';
+import {useFocusEffect} from 'expo-router';
+import {LineChart} from 'react-native-gifted-charts';
+import {ChevronDown, ChevronUp, Clock} from 'lucide-react-native';
+import {FocusAwareStatusBar} from '@/components/ui';
 
 type RecordingSession = {
   id: string;
@@ -24,8 +24,8 @@ type RecordingSession = {
   };
   data: {
     timestamp: number;
-    gyro: { x: number; y: number; z: number };
-    accel: { x: number; y: number; z: number };
+    gyro: {x: number; y: number; z: number};
+    accel: {x: number; y: number; z: number};
     lat?: number;
     lon?: number;
     alt?: number;
@@ -70,7 +70,7 @@ export default function HistoricalDataScreen() {
           <View className="mt-20 items-center justify-center">
             <Text className="text-lg text-gray-400">No recordings found.</Text>
             <Text className="mt-2 text-sm text-gray-400">
-              Go to "My Gyro" to record some data.
+              Go to &quot;My Gyro&quot; to record some data.
             </Text>
           </View>
         ) : (
@@ -103,23 +103,23 @@ const SessionCard = ({
   const step = Math.ceil(session.data.length / 50); // Limit to ~50 points
   const chartDataGyroX = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.gyro.x }));
+    .map(d => ({value: d.gyro.x}));
   const chartDataGyroY = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.gyro.y }));
+    .map(d => ({value: d.gyro.y}));
   const chartDataGyroZ = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.gyro.z }));
+    .map(d => ({value: d.gyro.z}));
 
   const chartDataAccelX = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.accel.x }));
+    .map(d => ({value: d.accel.x}));
   const chartDataAccelY = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.accel.y }));
+    .map(d => ({value: d.accel.y}));
   const chartDataAccelZ = session.data
     .filter((_, i) => i % step === 0)
-    .map(d => ({ value: d.accel.z }));
+    .map(d => ({value: d.accel.z}));
 
   return (
     <View className="mb-4 overflow-hidden rounded-xl bg-white shadow-sm dark:bg-neutral-800">

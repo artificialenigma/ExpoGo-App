@@ -1,9 +1,9 @@
-import { makeAutoObservable } from 'mobx';
-import { hydrateStore, makePersistable } from 'mobx-persist-store';
-import { I18nManager } from 'react-native';
-import type { Language } from '@/lib/i18n/resources';
-import { syncLanguage } from '@/lib/i18n';
-import { UILanguage, PVoid } from './types';
+import {makeAutoObservable} from 'mobx';
+import {hydrateStore, makePersistable} from 'mobx-persist-store';
+import {I18nManager} from 'react-native';
+import type {Language} from '@/lib/i18n/resources';
+import {syncLanguage} from '@/lib/i18n';
+import {UILanguage, PVoid} from './types';
 
 export class UILanguageStore {
   isSystemLanguage = false;

@@ -1,16 +1,16 @@
 import React from 'react';
-import {Platform, Pressable, type PressableProps} from 'react-native';
-import {BottomSheetFlatList, type BottomSheetModal} from '@gorhom/bottom-sheet';
-import {FlashList} from '@shopify/flash-list';
-import {useColorScheme} from 'nativewind';
-import type {SvgProps} from 'react-native-svg';
-import Svg, {Path} from 'react-native-svg';
+import { Platform, Pressable, type PressableProps } from 'react-native';
+import { BottomSheetFlashList, type BottomSheetModal } from '@gorhom/bottom-sheet';
+import { FlashList } from '@shopify/flash-list';
+import { useColorScheme } from 'nativewind';
+import type { SvgProps } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 import colors from '@/components/ui/colors';
-import {Modal} from './modal';
-import {Text} from './text';
+import { Modal } from './modal';
+import { Text } from './text';
 
-export type OptionType = {label: string; value: string | number};
+export type OptionType = { label: string; value: string | number };
 
 type OptionsProps = {
   options: OptionType[];
@@ -23,17 +23,17 @@ function keyExtractor(item: OptionType) {
   return `select-item-${item.value}`;
 }
 
-const List = Platform.OS === 'web' ? FlashList : BottomSheetFlatList;
+const List = (Platform.OS === 'web' ? FlashList : BottomSheetFlashList) as any;
 
 export const Options = React.forwardRef<BottomSheetModal, OptionsProps>(
-  ({options, onSelect, value, testID}, ref) => {
+  ({ options, onSelect, value, testID }, ref) => {
     const height = options.length * 70 + 100;
     const snapPoints = React.useMemo(() => [height], [height]);
-    const {colorScheme} = useColorScheme();
+    const { colorScheme } = useColorScheme();
     const isDark = colorScheme === 'dark';
 
     const renderSelectItem = React.useCallback(
-      ({item}: {item: OptionType}) => (
+      ({ item }: { item: OptionType }) => (
         <Option
           key={`select-item-${item.value}`}
           label={item.label}
@@ -85,7 +85,7 @@ const Option = React.memo(
   },
 );
 
-const Check = ({...props}: SvgProps) => (
+const Check = ({ ...props }: SvgProps) => (
   <Svg
     width={25}
     height={24}

@@ -1,20 +1,20 @@
-import {BottomSheetFlatList, type BottomSheetModal} from '@gorhom/bottom-sheet';
-import {FlashList} from '@shopify/flash-list';
-import {useColorScheme} from 'nativewind';
+import { BottomSheetFlashList, type BottomSheetModal } from '@gorhom/bottom-sheet';
+import { FlashList } from '@shopify/flash-list';
+import { useColorScheme } from 'nativewind';
 import * as React from 'react';
-import type {FieldValues} from 'react-hook-form';
-import {useController} from 'react-hook-form';
-import {Platform, Pressable, type PressableProps, View} from 'react-native';
-import type {SvgProps} from 'react-native-svg';
-import Svg, {Path} from 'react-native-svg';
-import {tv} from 'tailwind-variants';
+import type { FieldValues } from 'react-hook-form';
+import { useController } from 'react-hook-form';
+import { Platform, Pressable, type PressableProps, View } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
+import { tv } from 'tailwind-variants';
 
 import colors from '@/components/ui/colors';
-import {CaretDown} from '@/components/ui/icons';
+import { CaretDown } from '@/components/ui/icons';
 
-import type {InputControllerType} from './input';
-import {Modal, useModal} from './modal';
-import {Text} from './text';
+import type { InputControllerType } from './input';
+import { Modal, useModal } from './modal';
+import { Text } from './text';
 
 const selectTv = tv({
   slots: {
@@ -50,9 +50,9 @@ const selectTv = tv({
   },
 });
 
-const List = Platform.OS === 'web' ? FlashList : BottomSheetFlatList;
+const List = (Platform.OS === 'web' ? FlashList : BottomSheetFlashList) as any;
 
-export type OptionType = {label: string; value: string | number};
+export type OptionType = { label: string; value: string | number };
 
 type OptionsProps = {
   options: OptionType[];
@@ -66,14 +66,14 @@ function keyExtractor(item: OptionType) {
 }
 
 export const Options = React.forwardRef<BottomSheetModal, OptionsProps>(
-  ({options, onSelect, value, testID}, ref) => {
+  ({ options, onSelect, value, testID }, ref) => {
     const height = options.length * 70 + 100;
     const snapPoints = React.useMemo(() => [height], [height]);
-    const {colorScheme} = useColorScheme();
+    const { colorScheme } = useColorScheme();
     const isDark = colorScheme === 'dark';
 
     const renderSelectItem = React.useCallback(
-      ({item}: {item: OptionType}) => (
+      ({ item }: { item: OptionType }) => (
         <Option
           key={`select-item-${item.value}`}
           label={item.label}
@@ -137,7 +137,7 @@ export interface SelectProps {
 }
 interface ControlledSelectProps<T extends FieldValues>
   extends SelectProps,
-    InputControllerType<T> {}
+  InputControllerType<T> { }
 
 export const Select = (props: SelectProps) => {
   const {
@@ -219,9 +219,9 @@ export const Select = (props: SelectProps) => {
 export function ControlledSelect<T extends FieldValues>(
   props: ControlledSelectProps<T>,
 ) {
-  const {name, control, rules, onSelect: onNSelect, ...selectProps} = props;
+  const { name, control, rules, onSelect: onNSelect, ...selectProps } = props;
 
-  const {field, fieldState} = useController({control, name, rules});
+  const { field, fieldState } = useController({ control, name, rules });
   const onSelect = React.useCallback(
     (value: string | number) => {
       field.onChange(value);
@@ -239,7 +239,7 @@ export function ControlledSelect<T extends FieldValues>(
   );
 }
 
-const Check = ({...props}: SvgProps) => (
+const Check = ({ ...props }: SvgProps) => (
   <Svg
     width={25}
     height={24}

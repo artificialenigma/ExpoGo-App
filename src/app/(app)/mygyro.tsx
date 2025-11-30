@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {View, Text, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import {
   BatteryCharging,
   RotateCw,
@@ -8,19 +8,19 @@ import {
   Share as ShareIcon,
   Clock,
 } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { cssInterop } from 'nativewind';
-import { Gyroscope, Accelerometer } from 'expo-sensors';
+import {LinearGradient} from 'expo-linear-gradient';
+import {cssInterop} from 'nativewind';
+import {Gyroscope, Accelerometer} from 'expo-sensors';
 import * as Battery from 'expo-battery';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { WeatherWidget } from '@/components/weather-widget';
-import type { WeatherData } from '@/api/weather';
+import {WeatherWidget} from '@/components/weather-widget';
+import type {WeatherData} from '@/api/weather';
 
-cssInterop(LinearGradient, { className: 'style' });
+cssInterop(LinearGradient, {className: 'style'});
 
 type RecordingSession = {
   id: string;
@@ -34,8 +34,8 @@ type RecordingSession = {
   };
   data: {
     timestamp: number;
-    gyro: { x: number; y: number; z: number };
-    accel: { x: number; y: number; z: number };
+    gyro: {x: number; y: number; z: number};
+    accel: {x: number; y: number; z: number};
     lat?: number;
     lon?: number;
     alt?: number;
@@ -51,8 +51,8 @@ type RecordingSession = {
 
 export default function SensorDashboardScreen() {
   // Sensor State
-  const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
-  const [accelData, setAccelData] = useState({ x: 0, y: 0, z: 0 });
+  const [gyroData, setGyroData] = useState({x: 0, y: 0, z: 0});
+  const [accelData, setAccelData] = useState({x: 0, y: 0, z: 0});
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null,
   );
@@ -67,8 +67,8 @@ export default function SensorDashboardScreen() {
   const lastImpactTime = useRef(0);
   const locationRef = useRef<Location.LocationObject | null>(null);
   const weatherRef = useRef<WeatherData | null>(null);
-  const gyroRef = useRef({ x: 0, y: 0, z: 0 });
-  const accelRef = useRef({ x: 0, y: 0, z: 0 });
+  const gyroRef = useRef({x: 0, y: 0, z: 0});
+  const accelRef = useRef({x: 0, y: 0, z: 0});
   const [gyroSubscription, setGyroSubscription] = useState<any>(null);
   const [accelSubscription, setAccelSubscription] = useState<any>(null);
 
@@ -97,7 +97,7 @@ export default function SensorDashboardScreen() {
   const setupSensors = async () => {
     const gyroAvailable = await Gyroscope.isAvailableAsync();
     if (gyroAvailable) {
-      const { status } = await Gyroscope.requestPermissionsAsync();
+      const {status} = await Gyroscope.requestPermissionsAsync();
       if (status === 'granted') {
         _subscribeGyro();
       }
@@ -105,13 +105,13 @@ export default function SensorDashboardScreen() {
 
     const accelAvailable = await Accelerometer.isAvailableAsync();
     if (accelAvailable) {
-      const { status } = await Accelerometer.requestPermissionsAsync();
+      const {status} = await Accelerometer.requestPermissionsAsync();
       if (status === 'granted') {
         _subscribeAccel();
       }
     }
 
-    const { status: locationStatus } =
+    const {status: locationStatus} =
       await Location.requestForegroundPermissionsAsync();
     if (locationStatus === 'granted') {
       await Location.watchPositionAsync(
@@ -154,9 +154,12 @@ export default function SensorDashboardScreen() {
           const now = Date.now();
 
           // Detect Impact (> 1.5g)
-          const magnitude = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
+          const magnitude = Math.sqrt(
+            data.x * data.x + data.y * data.y + data.z * data.z,
+          );
           if (magnitude > 1.5) {
-            if (now - lastImpactTime.current > 500) { // Debounce 500ms
+            if (now - lastImpactTime.current > 500) {
+              // Debounce 500ms
               lastImpactTime.current = now;
               recordedImpacts.current.push({
                 timestamp: now,
@@ -169,8 +172,16 @@ export default function SensorDashboardScreen() {
 
           recordedData.current.push({
             timestamp: now,
-            gyro: { x: gyroRef.current.x, y: gyroRef.current.y, z: gyroRef.current.z },
-            accel: { x: accelRef.current.x, y: accelRef.current.y, z: accelRef.current.z },
+            gyro: {
+              x: gyroRef.current.x,
+              y: gyroRef.current.y,
+              z: gyroRef.current.z,
+            },
+            accel: {
+              x: accelRef.current.x,
+              y: accelRef.current.y,
+              z: accelRef.current.z,
+            },
             lat: locationRef.current?.coords.latitude,
             lon: locationRef.current?.coords.longitude,
             alt: locationRef.current?.coords.altitude ?? undefined,
@@ -220,10 +231,10 @@ export default function SensorDashboardScreen() {
       impacts: recordedImpacts.current,
       weather: weatherRef.current
         ? {
-          temp: weatherRef.current.current.temperature,
-          condition: weatherRef.current.current.weather_descriptions[0],
-          location: `${weatherRef.current.location.name}, ${weatherRef.current.location.country}`,
-        }
+            temp: weatherRef.current.current.temperature,
+            condition: weatherRef.current.current.weather_descriptions[0],
+            location: `${weatherRef.current.location.name}, ${weatherRef.current.location.country}`,
+          }
         : undefined,
       data: recordedData.current, // Storing the actual data
     };
@@ -245,7 +256,8 @@ export default function SensorDashboardScreen() {
 
   // 5. Export/Share Logic
   const exportSession = async (session: RecordingSession) => {
-    let header = 'Timestamp,Gyro_X,Gyro_Y,Gyro_Z,Accel_X,Accel_Y,Accel_Z,Latitude,Longitude,Altitude,Speed\n';
+    let header =
+      'Timestamp,Gyro_X,Gyro_Y,Gyro_Z,Accel_X,Accel_Y,Accel_Z,Latitude,Longitude,Altitude,Speed\n';
 
     if (session.weather) {
       header =
@@ -327,7 +339,6 @@ export default function SensorDashboardScreen() {
           <AxisBar label="X" val={gyroData.x} color="bg-purple-500" />
           <AxisBar label="Y" val={gyroData.y} color="bg-indigo-500" />
           <AxisBar label="Z" val={gyroData.z} color="bg-pink-500" />
-
         </View>
 
         {/* Live Monitor - Accelerometer */}
@@ -420,7 +431,7 @@ export default function SensorDashboardScreen() {
       )}
 
       <View className="h-10" />
-    </ScrollView >
+    </ScrollView>
   );
 }
 
@@ -443,7 +454,7 @@ const AxisBar = ({
     <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
       <View
         className={`h-full ${color}`}
-        style={{ width: `${Math.min(Math.abs(val) * 50, 100)}%` }}
+        style={{width: `${Math.min(Math.abs(val) * 50, 100)}%`}}
       />
     </View>
   </View>

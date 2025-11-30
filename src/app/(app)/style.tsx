@@ -1,6 +1,12 @@
 import * as React from 'react';
 
-import { FocusAwareStatusBar, SafeAreaView, ScrollView, Text, View } from '@/components/ui';
+import {
+  FocusAwareStatusBar,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from '@/components/ui';
 
 export default function Style() {
   return (
@@ -26,9 +32,10 @@ export default function Style() {
               </Text>
 
               <Text className="mb-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                Road conditions significantly influence driver health through Whole-Body Vibration (WBV)
-                and Driver Stress (DS). This app helps quantify road-induced motions and their impact on
-                driver health parameters.
+                Road conditions significantly influence driver health through
+                Whole-Body Vibration (WBV) and Driver Stress (DS). This app
+                helps quantify road-induced motions and their impact on driver
+                health parameters.
               </Text>
 
               <View className="mb-4 rounded-xl bg-white/50 p-4 dark:bg-black/20">
@@ -36,9 +43,10 @@ export default function Style() {
                   🚗 The Problem
                 </Text>
                 <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  • WBV from road surfaces affects driver vigilance and increases stress{'\n'}
-                  • 55.30% of professional drivers experience Low Back Pain{'\n'}
-                  • Poor road conditions impair attention and decision-making
+                  • WBV from road surfaces affects driver vigilance and
+                  increases stress{'\n'}• 55.30% of professional drivers
+                  experience Low Back Pain{'\n'}• Poor road conditions impair
+                  attention and decision-making
                 </Text>
               </View>
 
@@ -47,8 +55,9 @@ export default function Style() {
                   💡 Our Solution
                 </Text>
                 <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  Using ESP32 and gyroscope sensors, we collect real-world, low-cost road data
-                  to link measurable road-induced motions with physiological outcomes.
+                  Using ESP32 and gyroscope sensors, we collect real-world,
+                  low-cost road data to link measurable road-induced motions
+                  with physiological outcomes.
                 </Text>
               </View>
             </View>
@@ -60,8 +69,9 @@ export default function Style() {
               </Text>
 
               <Text className="mb-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                This digital systems project combines experimental and analytical methods to quantify
-                how measurable road-induced motions affect key driver health parameters.
+                This digital systems project combines experimental and
+                analytical methods to quantify how measurable road-induced
+                motions affect key driver health parameters.
               </Text>
 
               <View className="space-y-3">
@@ -70,7 +80,8 @@ export default function Style() {
                     🔧 Hardware
                   </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
-                    ESP32 microcontroller with integrated gyroscope and accelerometer sensors
+                    ESP32 microcontroller with integrated gyroscope and
+                    accelerometer sensors
                   </Text>
                 </View>
 
@@ -79,7 +90,8 @@ export default function Style() {
                     📊 Data Collection
                   </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
-                    Real-time multi-sensor recording with GPS coordinates and weather data
+                    Real-time multi-sensor recording with GPS coordinates and
+                    weather data
                   </Text>
                 </View>
 
@@ -88,7 +100,8 @@ export default function Style() {
                     🔬 Analysis
                   </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
-                    CSV export for comprehensive data analysis and research validation
+                    CSV export for comprehensive data analysis and research
+                    validation
                   </Text>
                 </View>
               </View>
@@ -101,7 +114,8 @@ export default function Style() {
               </Text>
 
               <Text className="mb-4 text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                Whole-Body Vibration (WBV) transmitted through vehicle seats directly impacts driver health:
+                Whole-Body Vibration (WBV) transmitted through vehicle seats
+                directly impacts driver health:
               </Text>
 
               <View className="mb-3 rounded-xl bg-white/50 p-4 dark:bg-black/20">
@@ -109,9 +123,9 @@ export default function Style() {
                   Physical Effects
                 </Text>
                 <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  • Low Back Pain (55.30% prevalence in professional drivers){'\n'}
-                  • Increased physical fatigue and drowsiness{'\n'}
-                  • Long-term musculoskeletal disorders
+                  • Low Back Pain (55.30% prevalence in professional drivers)
+                  {'\n'}• Increased physical fatigue and drowsiness{'\n'}•
+                  Long-term musculoskeletal disorders
                 </Text>
               </View>
 
@@ -120,9 +134,8 @@ export default function Style() {
                   Cognitive Effects
                 </Text>
                 <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  • Reduced vigilance and attention{'\n'}
-                  • Impaired decision-making ability{'\n'}
-                  • Increased accident risk
+                  • Reduced vigilance and attention{'\n'}• Impaired
+                  decision-making ability{'\n'}• Increased accident risk
                 </Text>
               </View>
             </View>
@@ -133,14 +146,13 @@ export default function Style() {
                 🎓 Research Impact
               </Text>
               <Text className="mb-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                This digital systems project bridges the gap between real-world road data and
-                driver health outcomes, contributing to:
+                This digital systems project bridges the gap between real-world
+                road data and driver health outcomes, contributing to:
               </Text>
               <Text className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                • Safer road infrastructure design{'\n'}
-                • Improved occupational health for professional drivers{'\n'}
-                • Evidence-based policy recommendations{'\n'}
-                • Cost-effective road quality monitoring
+                • Safer road infrastructure design{'\n'}• Improved occupational
+                health for professional drivers{'\n'}• Evidence-based policy
+                recommendations{'\n'}• Cost-effective road quality monitoring
               </Text>
             </View>
           </View>
