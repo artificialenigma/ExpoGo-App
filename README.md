@@ -134,15 +134,15 @@ Record comprehensive motion data from your device's sensors including:
 *Real-time sensor data visualization during active recording*
 
 ### Session History
-![Session History](./screenshots/history.png)
+![Session History](./screenshots/history.jpg)
 *Browse and manage past recording sessions*
 
 ### My Gyro Dashboard
-![My Gyro Dashboard](./screenshots/mygyro.png)
+![My Gyro Dashboard](./screenshots/mygyro.jpg)
 *Main dashboard for sensor monitoring and recording controls*
 
 ### Settings
-![Settings Screen](./screenshots/settings.png)
+![Settings Screen](./screenshots/settings.jpg)
 *App configuration, language selection, and theme preferences*
 
 ### Driving History Map
