@@ -46,8 +46,11 @@ cp .env.example .env
 
 # Edit .env with your API keys and configuration
 # Required variables:
-# - API_URL: Your backend API endpoint
+# - API_URL: Your backend API endpoint (default: https://dummyjson.com/)
 # - SECRET_KEY: Application secret key
+# - WEATHER_API_KEY: Weatherstack API key for weather data (get free key at https://weatherstack.com/)
+# - VAR_NUMBER: Numeric configuration variable
+# - VAR_BOOL: Boolean configuration variable
 ```
 
 ### Step 4: Start the Development Server
@@ -158,10 +161,10 @@ Record comprehensive motion data from your device's sensors including:
 ## 🛠️ Technologies Used
 
 ### Frontend Framework
-- **React Native** (0.79.5) - Cross-platform mobile development
-- **Expo** (~53.0.6) - Development platform and tooling
-- **Expo Router** (~5.1.7) - File-based navigation system
-- **TypeScript** (~5.8.3) - Type-safe JavaScript
+- **React Native** (0.81.5) - Cross-platform mobile development
+- **Expo** (~54.0.25) - Development platform and tooling
+- **Expo Router** (~6.0.15) - File-based navigation system
+- **TypeScript** (~5.9.2) - Type-safe JavaScript
 
 ### UI & Styling
 - **NativeWind** (4.1.21) - Tailwind CSS for React Native
@@ -184,14 +187,15 @@ Record comprehensive motion data from your device's sensors including:
 - **React Native SVG** (15.11.2) - SVG rendering
 
 ### Sensors & Location
-- **Expo Sensors** (~14.1.4) - Gyroscope, accelerometer, magnetometer
-- **Expo Location** (~18.1.6) - GPS and location services
-- **Expo Device** (~7.1.4) - Device information
+- **Expo Sensors** (~15.0.7) - Gyroscope, accelerometer, magnetometer
+- **Expo Location** (~19.0.7) - GPS and location services
+- **Expo Device** (~8.0.9) - Device information
+- **React Native Maps** (1.20.1) - Interactive map components
 
 ### Storage & File System
-- **Expo File System** (~18.1.11) - File operations
-- **Expo Sharing** (~13.1.5) - File sharing capabilities
-- **AsyncStorage** (2.1.2) - Local data persistence
+- **Expo File System** (~19.0.19) - File operations
+- **Expo Sharing** (~14.0.7) - File sharing capabilities
+- **AsyncStorage** (2.2.0) - Local data persistence
 
 ### Networking & APIs
 - **Axios** (^1.7.5) - HTTP client
@@ -325,6 +329,22 @@ This application is part of a comprehensive study on:
 
 **Important**: Never commit sensitive values to the repository.
 
+### Required Environment Variables
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|----------|
+| `API_URL` | Backend API endpoint | No | `https://dummyjson.com/` |
+| `SECRET_KEY` | Application secret key | No | - |
+| `WEATHER_API_KEY` | Weatherstack API key | **Yes** | Fallback provided |
+| `VAR_NUMBER` | Numeric configuration | No | `0` |
+| `VAR_BOOL` | Boolean configuration | No | `false` |
+
+### Weather API Setup
+The app uses **Weatherstack** for weather data:
+1. Sign up for a free API key at [weatherstack.com](https://weatherstack.com/)
+2. Add `WEATHER_API_KEY=your_key_here` to your `.env` file
+3. Note: A fallback key is provided in `src/lib/env.ts` for development, but you should use your own key
+
 ### Local Development
 1. Copy `.env.example` to `.env`
 2. Fill in your API keys and configuration
@@ -340,6 +360,7 @@ Example GitHub Actions workflow:
 env:
   API_URL: ${{ secrets.API_URL }}
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
 ```
 
 ---
