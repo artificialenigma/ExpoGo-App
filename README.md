@@ -146,11 +146,11 @@ Record comprehensive motion data from your device's sensors including:
 *App configuration, language selection, and theme preferences*
 
 ### Driving History Map
-![Map Screen](./screenshots/map.png)
+![Map Screen](./screenshots/map.jpg)
 *Interactive map showing GPS routes and impact markers*
 
 ### Impact Monitor
-![Impacts Screen](./screenshots/impacts.png)
+![Impacts Screen](./screenshots/impacts.jpg)
 *Real-time G-force meter and impact history*
 
 ---
